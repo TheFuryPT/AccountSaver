@@ -25,9 +25,6 @@ def login_verify():
         screen_1()
 
 
-photo = tk.PhotoImage(file=r"C:\Users\Fury\PycharmProjects\AccountSaver\Account\visivel.png")
-photoing = photo.subsample(3, 3)
-
 canvas = tk.Canvas(root, height=HEIGHT, width=WIDTH)
 canvas.pack()
 
@@ -45,10 +42,10 @@ pass_label.place(relx=-0.4, rely=0.5, relwidth=1, relheight=0.1)
 # Root Entry
 
 username_entry = tk.Entry(frame)
-username_entry.place(relx=0.25, rely=0.11, relwidth=0.6, relheight=0.2)
+username_entry.place(relx=0.25, rely=0.11, relwidth=0.55, relheight=0.2)
 
 password_entry = tk.Entry(frame)
-password_entry.place(relx=0.25, rely=0.47, relwidth=0.6, relheight=0.2)
+password_entry.place(relx=0.25, rely=0.47, relwidth=0.55, relheight=0.2)
 
 password_entry.default_show_val = password_entry['show']
 password_entry['show'] = "*"
@@ -58,10 +55,10 @@ password_entry['show'] = "*"
 button_login = tk.Button(frame, text="Login", bg="#908F8F", fg="#464545", command=login_verify)
 button_login.place(relx=0, rely=0.75, relwidth=1, relheight=0.25)
 
-button_pass = tk.Checkbutton(frame, image=photo, onvalue=True, offvalue=False, command=toggle_password)
+button_pass = tk.Checkbutton(frame, text="Hide", bg="#D5D0D0", onvalue=True, offvalue=False, command=toggle_password)
 button_pass.var = tk.BooleanVar(value=True)
 button_pass['variable'] = button_pass.var
-button_pass.place(relx=0.87, rely=0.47, relwidth=0.127, relheight=0.2)
+button_pass.place(relx=0.83, rely=0.47, relwidth=0.15, relheight=0.2)
 
 
 # screen1 stuff
