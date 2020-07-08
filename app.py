@@ -1,15 +1,56 @@
 import tkinter as tk
+from key_build import *
+from cryptography.fernet import Fernet
+
 
 root = tk.Tk()
 
 HEIGHT = 120
 WIDTH = 320
 
+key = load_key()
+
 txt_file = ""
 
 login_name = "1"
 login_pass = "1"
 
+
+# encrypt data
+
+def encrypt(filename, key):
+    """
+    Given a filename (str) and key (bytes), it encrypts the file and write it
+    """
+    f = Fernet(key)
+    with open("user_logs", "rb") as file:
+        # read all file data
+        file_data = file.read()
+
+    encrypted_data = f.encrypt(file_data)
+
+    with open("user_logs", "wb") as file:
+        file.write(encrypted_data)
+
+
+def decrypt(filename, key):
+    """
+    Given a filename (str) and key (bytes), it decrypts the file and write it
+    """
+    f = Fernet(key)
+    with open(filename, "rb") as file:
+        # read the encrypted data
+        encrypted_data = file.read()
+    # decrypt data
+    decrypted_data = f.decrypt(encrypted_data)
+    # write the original file
+    with open(filename, "wb") as file:
+        file.write(decrypted_data)
+
+
+
+
+# Functions Root
 
 def toggle_password():
     if button_pass.var.get():
@@ -23,6 +64,7 @@ def login_verify():
         print("Fury is in the file")
         root.iconify()
         screen_1()
+        decrypt("user_logs", key)
 
 
 canvas = tk.Canvas(root, height=HEIGHT, width=WIDTH)
@@ -66,6 +108,10 @@ button_pass.place(relx=0.83, rely=0.47, relwidth=0.15, relheight=0.2)
 def screen_1():
     # fUNCTIONS
 
+    def quit_encrypt():
+        encrypt("user_logs", key)
+        root.quit()
+
     def lista():
         save_read = open("user_logs", "r")
         txt = save_read.read()
@@ -98,7 +144,6 @@ def screen_1():
         save_read.close()
         txt_list = list(txt.split("?"))
         print(txt_list)
-        print(len(txt_list))
         # Screen1 Label Data
         lista()
 
@@ -126,7 +171,7 @@ def screen_1():
 
     # Screen1 Buttons
 
-    button_quit = tk.Button(screen1, text="QUIT", bg="#908F8F", fg="#464545", command=quit)
+    button_quit = tk.Button(screen1, text="QUIT", bg="#908F8F", fg="#464545", command=quit_encrypt)
     button_quit.place(relx=0.5, rely=0.9, relwidth=0.5, relheight=0.1)
 
     button_quit = tk.Button(screen1, text="CLEAR", bg="#908F8F", fg="#464545", command=clear_user)
